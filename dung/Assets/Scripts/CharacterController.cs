@@ -20,7 +20,7 @@ public class CharacterController : MonoBehaviour
     [Range (200f,1000f)]
     [SerializeField] private float jumpForce = 1f;
     private bool isGrounded = true;
-
+    private KeyInventory mgInventory;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +31,7 @@ public class CharacterController : MonoBehaviour
         //swordPlayer.GetComponent<SwordController>().SetSwordName("Espadon 9000");
         //swordPlayer.transform.position = transform.position + swordPosition;
         //swordPlayer.transform.localScale = transform.localScale;
+        mgInventory = GetComponent<KeyInventory>();
     }
 
     // Update is called once per frame
@@ -46,8 +47,11 @@ public class CharacterController : MonoBehaviour
                 animPlayer.SetTrigger ("IsJump");
                 Jump();
             }
-           
           
+        }
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            UseItem();
         }
 
     }
@@ -83,12 +87,19 @@ public class CharacterController : MonoBehaviour
         rbFoot.AddForce(0, 1* jumpForce, 0);
         
     }
-  
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 3)
         {
             isGrounded = true;
+        }
+        if (other.gameObject.CompareTag("Key"))
+        {
+            //Destroy(other.gameObject);
+            GameObject Key = other.gameObject;
+            Key.SetActive(false);
+            mgInventory.AddInventoryOne(Key);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -97,5 +108,12 @@ public class CharacterController : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    private void UseItem()
+    {
+        GameObject Key = mgInventory.GetInventoryOne();
+        Key.SetActive(true);
+        Key.transform.position = transform.position + new Vector3(1f, 1f, 1f);
     }
 }
