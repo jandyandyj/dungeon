@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class EndController : MonoBehaviour
 {
-    public GameObject Door;
-    float degreesPerSecond = 20;
-
-
+    public GameObject  Door;
+    [SerializeField] private float rotationMagnitud = 1f;
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -24,11 +22,11 @@ public class EndController : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, Vector3.forward, out hit, 4f))
+        if(Physics.Raycast(transform.position, Vector3.forward, out hit,4f))
         {
             Debug.Log("Time End");
             GameManager.score += 100;
-            Debug.Log("Level 1 Completed! Your Score: " + GameManager.score);
+            Debug.Log("Level 1 Completed! Your Score: " +GameManager.score);
             Destroy(gameObject);
             UnlockDoor();
         }
@@ -42,11 +40,9 @@ public class EndController : MonoBehaviour
 
     private void UnlockDoor()
     {
-        Door.transform.eulerAngles = new Vector3(0f, -90f, 0f);
-        //Door.transform.eulerAngles = new Vector3(0, degreesPerSecond, 0) * Time.deltaTime;
+        Vector3 direction = transform.position - transform.position;
+        Quaternion newQuaternion = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Lerp(transform.rotation, newQuaternion, rotationMagnitud * Time.deltaTime);
 
     }
 }
-
-
-
