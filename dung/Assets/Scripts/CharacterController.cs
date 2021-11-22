@@ -11,27 +11,16 @@ public class CharacterController : MonoBehaviour
     public Vector3 initPosition = new Vector3(4, 2, 1);
     //public Vector3 swordPosition = new Vector3(0, 0, 0.3f);
     public float cameraAxisX = -90f;
-
-    //para animar
-    [SerializeField] private Animator animPlayer;
-    
-    //variables para salto
-    private Rigidbody rbFoot;
-    [Range (200f,1000f)]
-    [SerializeField] private float jumpForce = 1f;
     private bool isGrounded = true;
+
+
+    //
     private KeyInventory mgInventory;
     // Start is called before the first frame update
     void Start()
     {
-       rbFoot =GetComponent<Rigidbody>();
-        animPlayer.SetBool("IsRun", false);
-        animPlayer.SetBool("IsJump", false);
-        //transform.position = initPosition;
-        //swordPlayer.GetComponent<SwordController>().SetSwordName("Espadon 9000");
-        //swordPlayer.transform.position = transform.position + swordPosition;
-        //swordPlayer.transform.localScale = transform.localScale;
         mgInventory = GetComponent<KeyInventory>();
+
     }
 
     // Update is called once per frame
@@ -41,14 +30,7 @@ public class CharacterController : MonoBehaviour
 
         RotatePlayer();
         //swordPlayer.transform.position = transform.position + swordPosition;
-        if (Input.GetKeyDown(KeyCode.Space))
-        {if (isGrounded == true)
-            {
-                animPlayer.SetTrigger ("IsJump");
-                Jump();
-            }
-          
-        }
+        
         if (Input.GetKeyUp(KeyCode.K))
         {
             UseItem();
@@ -61,16 +43,11 @@ public class CharacterController : MonoBehaviour
         float ejeHorizontal = Input.GetAxisRaw("Horizontal");
         float ejeVertical = Input.GetAxisRaw("Vertical");
 
-
         if (ejeHorizontal != 0 || ejeVertical != 0)
         {
-            animPlayer.SetBool("IsRun", true);
             transform.Translate(speedPlayer * Time.deltaTime * new Vector3(ejeHorizontal, 0, ejeVertical));
         }
-        else
-        {
-            animPlayer.SetBool("IsRun", false);
-        }
+
 
 
     }
@@ -82,11 +59,7 @@ public class CharacterController : MonoBehaviour
         transform.localRotation = angulo;
     }
 
-    private void Jump(){
-        Debug.Log("saltalalinda");
-        rbFoot.AddForce(0, 1* jumpForce, 0);
-        
-    }
+    
 
     private void OnTriggerEnter(Collider other)
     {
