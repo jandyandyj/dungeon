@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixUpdate()
     {
         // MoveEnemy(Vector3.forward);
        if (Vector3.Distance(transform.position, player.transform.position)<= rangeOfView)
