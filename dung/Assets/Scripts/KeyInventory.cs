@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class KeyInventory : MonoBehaviour
 {
@@ -10,17 +11,50 @@ public class KeyInventory : MonoBehaviour
     private Queue inventoryTwo;
     Dictionary<string, GameObject> inventoryThree;
 
+    //agregado ui key
+    [SerializeField] private int[] KeyQuantity = { 0, 0 };
+
     void Start()
     {
         inventoryOne = new Stack();
         inventoryTwo = new Queue();
         inventoryThree = new Dictionary<string, GameObject>();
+
+
+       
+
+    }
+    public void CountKey(GameObject key)
+    {
+        KeyController k = key.GetComponent<KeyController>();
+
+        switch (k.GettypeKey())
+        {
+            case GameManager.typesKey.Silver:
+                KeyQuantity[0]++;
+
+                break;
+            case GameManager.typesKey.Gold:
+                KeyQuantity[1]++;
+
+                break;
+            default:
+                Debug.Log("No se puede contar");
+                break;
+
+        }
+    }
+
+    public int [] GetKeyQuantity()
+    {
+        return KeyQuantity;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
+        
     }
 
     public void AddInventoryOne(GameObject key)
@@ -95,4 +129,5 @@ public class KeyInventory : MonoBehaviour
     {
         return inventoryThree.Count > 0;
     }
+
 }

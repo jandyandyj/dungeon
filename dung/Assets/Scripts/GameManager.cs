@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public enum typesKey { Silver, Gold };
     public static GameManager instance;
     public static int score;
 

@@ -73,6 +73,8 @@ public class CharacterController : MonoBehaviour
             GameObject Key = other.gameObject;
             Key.SetActive(false);
             mgInventory.AddInventoryOne(Key);
+            mgInventory.CountKey(Key);
+            Debug.Log("sumollave");
         }
     }
     private void OnTriggerExit(Collider other)
